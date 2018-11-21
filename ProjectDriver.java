@@ -6,15 +6,44 @@ import java.util.Scanner;
  * Last update: 11/21/18
  * Submitted:  
  * Comment: test suite and sample run attached
- * @author: Franklin Adair, Joseph Demoneri
+ * @author: Franklin Adair, Joseph Demoneris
  * @version: 2018.01.21
  */
 
+import java.io.*;
 public class ProjectDriver {
 
 	private static int choice = 0; // Choice the user makes in menu selection
 
-	private static Scanner sc = new Scanner(System.in);
+	private static final BufferedReader INPUT_MAN =  
+	new BufferedReader (new InputStreamReader(System.in));
+
+		
+	public static String requestIOString(String display) throws IOException
+	{// Request a String for input and trim it.
+		System.out.print(display + " > ");
+		String input = INPUT_MAN.readLine().trim();
+		System.out.println(input);
+		return input;
+	}
+
+	public static int requestIOInt(String display) throws IOException
+	{// Request an int for input. Trim the result and parse it
+	 // as an integer.
+		System.out.print(display + " > ");
+		int input = (int) Integer.parseInt(INPUT_MAN.readLine().trim());
+		System.out.println(input);
+		return input;
+	}
+	
+	public static double requestIODubs(String display) throws IOException
+	{// Request an double for input. Trim the result and parse it
+	 // as an double.
+		System.out.print(display + " > ");
+		double input = (double) Double.parseDouble(INPUT_MAN.readLine().trim());
+		System.out.println(input);
+		return input;
+	}
 
 	/**
 	 * 
@@ -79,7 +108,7 @@ public class ProjectDriver {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 
 
 		System.out.println("Select from the following menu:");
@@ -97,9 +126,16 @@ public class ProjectDriver {
                            
 		do {
 			System.out.println("You know the options.");
-			if (sc.hasNextInt()) {
-				choice = sc.nextInt();
-				System.out.println(choice);
+
+				try
+				{// Request an integer for a command
+					choice = requestIOInt("Selection number");
+				}
+				catch (Exception e)
+				{
+					choice = 999; // This triggers the invalid entry message
+									// if the input is not valid
+				}
 
 				switch (choice) {
 
@@ -131,10 +167,6 @@ public class ProjectDriver {
 				default:
 					System.out.println("Invalid input.");
 				}
-			} else {
-				System.out.println("Please enter only integer values on the list.");
-				sc.next();
-			}
 		} while (choice < 8);
 	}
 }
