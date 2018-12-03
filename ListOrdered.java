@@ -1,11 +1,13 @@
-public class ListOrdered<T> implements ListOrderedInterface<T>
-{
+public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterface<T>
+{// This class only supports generics that implement the comparable interface that are comparable to themselves.
+
     protected T[] items; 
     protected int numItems;
 
     public ListOrdered()
     {
-        items = (T[]) new Object[3];
+        items = (T[]) new Comparable[3]; // Array must be typed for Comparable
+										// to be typed as object throws runtime errors
         numItems = 0;
     } 
 
@@ -21,15 +23,14 @@ public class ListOrdered<T> implements ListOrderedInterface<T>
 
     public void removeAll()
     {
-        items = (T[]) new Object[3];
+        items = (T[]) new Comparable[3];
         numItems = 0;
     }
 
-    public void add(T item)
+    public int add(T item)
     throws  ListIndexOutOfBoundsException
     {
 		// Check add
-		//int determinant = search(item);
 		int determinant = binSearch(item);
 		if (determinant < 0) // If there is not this item already
 		{
@@ -61,6 +62,7 @@ public class ListOrdered<T> implements ListOrderedInterface<T>
 		{
 			System.out.println("Duplicate value!");
 		}
+		return determinant;
     }
 
 	public int binSearch(T key)
@@ -72,21 +74,17 @@ public class ListOrdered<T> implements ListOrderedInterface<T>
 		if(numItems > 0)
 		{
 			mid = (high + low) / 2;
-			//System.out.println("[" + low + "," + mid + "," + high + "]");
 			while (high > low)
 			{
 				if (key.compareTo(items[mid]) <= 0)
 				{
-					//System.out.println(key + " is less than or equal to " + items[mid]);
 					high = mid;
 				}
 				else
 				{
-					//System.out.println(key + " is greater than " + items[mid]);
 					low = mid + 1;
 				}
 				mid = (high + low) / 2;
-				//System.out.println("[" + low + "," + mid + "," + high + "]");
 			}
 			if (key.compareTo(items[mid]) == 0)
 			{

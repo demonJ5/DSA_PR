@@ -1,4 +1,4 @@
-public class Shopper
+public class Shopper implements Comparable<Shopper>
 {
 	private int items;
 	private int timeSpent;
@@ -7,23 +7,13 @@ public class Shopper
 	public Shopper(String name)
 	{
 		items = 0;
-		timeSpent  0;
+		timeSpent = 0;
 		this.name = name;
 	}
 
 	public int getItems()
 	{
 		return items;
-	}
-
-	public int getTime()
-	{
-		return timeSpent;
-	}
-
-	public String getName()
-	{
-		return name;
 	}
 
 	public void addItem()
@@ -36,6 +26,11 @@ public class Shopper
 		items--;
 	}
 
+	public int getTime()
+	{
+		return timeSpent;
+	}
+
 	public void clearTime()
 	{
 		timeSpent = 0;
@@ -46,9 +41,19 @@ public class Shopper
 		timeSpent++;
 	}
 
+	public String getName()
+	{
+		return name;
+	}
+
 	public int compareTo(Shopper key)
 	{
 		return name.compareTo(key.getName());
+	}
+
+	public String toString()
+	{
+		return "" + name + "	Time Spent: " + timeSpent + "	Items: " + items;
 	}
 
 	
