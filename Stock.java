@@ -13,7 +13,7 @@ public class Stock
 
 	public Stock(int restockValue)
 	{
-		this.itemNames = new ListOrdered>();
+		this.itemNames = new ListOrdered<>();
 		this.itemCounts = new ListRA<>();
 		this.restockValue = restockValue;
 	}

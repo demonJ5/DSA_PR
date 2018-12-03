@@ -5,7 +5,7 @@ public interface ListOrderedInterface<T>
 {
   boolean isEmpty();
   int size();
-  void add(T item) 
+  int add(T item) 
                   throws ListIndexOutOfBoundsException;
   T get(int index) 
                     throws ListIndexOutOfBoundsException;
