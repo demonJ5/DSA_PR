@@ -1,3 +1,10 @@
+/**
+ * ListOrdered.java
+ * Purpose: Provide an ordered list framework for objects that implement Comparable among themselves
+ *
+ * @author Joseph Demoneris
+ * @version 12/3/18
+ */
 public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterface<T>
 {// This class only supports generics that implement the comparable interface that are comparable to themselves.
 
@@ -11,22 +18,40 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
         numItems = 0;
     } 
 
+	/**
+	 * Returns whether or not the list is empty
+	 * 
+	 * @return true if empty
+	 */
     public boolean isEmpty()
     {
         return (numItems == 0);
     }
 
+	/**
+	 * Returns the size of the array
+	 *
+	 * @return Size of the array as an integer
+	 */
     public int size()
     {
         return numItems;
     }
 
+	/**
+	 * Clear and re-initialize the array
+	 */
     public void removeAll()
     {
         items = (T[]) new Comparable[3];
         numItems = 0;
     }
 
+	/**
+	 * Add an object into the array within its proper position
+	 *
+	 * @return The encoded index of insertion from 1 ... n
+	 */
     public int add(T item)
     throws  ListIndexOutOfBoundsException
     {
@@ -65,6 +90,12 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 		return determinant;
     }
 
+	/**
+	 * Find the location of the key or where it is to be inserted
+	 *
+	 * @return Encoded index of the key 1 ... n (if positive) or index
+	 * 			of recommended insertion (if negative)
+	 */
 	public int binSearch(T key)
 	{
 		int mid = 0;
@@ -107,6 +138,11 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 		 return result;
 	}
 
+	/**
+	 * Retrieve an object by index
+	 *
+	 * @return A generic type from the index specified
+	 */
     public T get(int index)
     throws ListIndexOutOfBoundsException
     {
@@ -121,6 +157,9 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
         }
     }
 
+	/**
+	 * Clear the specified index
+	 */
     public void remove(int index)
     throws ListIndexOutOfBoundsException
     {
@@ -145,6 +184,10 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
         }
     }
 
+	/**
+	 * Internal method to dynamically resize the array
+	 * by 150% when the array reaches its max capacity
+	 */
 	private void resize()
 	{
 		if (items.length == numItems)
@@ -158,6 +201,11 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 		}
 	}
 
+	/**
+	 * Retrieve a string representation of the list
+	 *
+	 * @return An ordered, numbered readout of each item vertically
+	 */
 	public String toString()
 	{
 		String val = "";
