@@ -139,7 +139,6 @@ public class ShoppingCenter
 		}
 		return retVal;
 	}
-	 *
 	
 	/**
 	 * Add a new Shopper to SHOPPER_LIST
