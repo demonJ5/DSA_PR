@@ -101,13 +101,19 @@ public class ListRA<T> implements ListInterface<T>
 		}
 	}
 
+	/**
+	 * Retrieve a String representation of the list
+	 * in the format 1...n
+	 *
+	 * @return String List with each item on a new line
+	 */
 	public String toString()
 	{
 		String val = "";
 		int size = numItems;
 		for (int i = 0; i < size; i++)
 		{
-			val += i + " : " + items[i].toString() + " "; 
+			val += (i + 1) + " : " + items[i].toString() + "\n"; 
 		}
 		return val;
 	}

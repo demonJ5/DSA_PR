@@ -203,6 +203,8 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 
 	/**
 	 * Retrieve a string representation of the list
+	 * in format 1...n
+	 * 		 not 0...n-1
 	 *
 	 * @return An ordered, numbered readout of each item vertically
 	 */

@@ -29,6 +29,11 @@ public class QueueCRA<T> implements QueueInterface<T>
 		return val;
 	}
 
+	public int size()
+	{
+		return numItems;
+	}
+
 	public void enqueue(T newItem) throws QueueException
 	{
 		if (numItems == items.length)		// If the array is full, resize
@@ -78,13 +83,23 @@ public class QueueCRA<T> implements QueueInterface<T>
 		items = newArray;
 	}
 
+	/**
+	 * Retrieve a string in which each item of the queue is listed
+	 * with their own toString() format on a seperate line in the
+	 * order they are queued
+	 *
+	 * Numbers used are 1...n
+	 * 				not 0...n-1
+	 *
+	 * @return String from 1st in queue to last
+	 */
 	public String toString()
 	{
 		String val = "";
-		for (int i = 0; i < numItems; i++)		// Iterate in the same fashion as resize
-		{										// but limit to numItems as opposed to
-			int n = (front + i)%items.length;	// array.length
-			val += " " + i + " : " + items[n];
+		for (int i = 0; i < numItems; i++)
+		{
+			int n = (front + i)%items.length;
+			val += (i + 1) + " : " + items[n].toString() + "\n";
 		}
 		return val;
 	}
