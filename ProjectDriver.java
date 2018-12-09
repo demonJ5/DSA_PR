@@ -3,10 +3,10 @@ import java.util.Scanner;
 /*
  * Purpose: Data Structure and Algorithms Project
  * Status: Incomplete
- * Last update: 11/21/18
- * Submitted:  
+ * Last update: 12/9/18
+ * Submitted: 12/11/18
  * Comment: test suite and sample run attached
- * @author: Franklin Adair, Joseph Demoneris
+ * @author: Franklin Adair
  * @version: 2018.01.21
  */
 
@@ -14,8 +14,8 @@ import java.io.*;
 public class ProjectDriver {
 
 	private static int choice = 0; // Choice the user makes in menu selection
-	private static int restockNum; //Number to use for checking restock values
-	private static Stock stock; //So all methods in the driver can access the stock
+	private static final int restockNum = 0; //Number to use for checking restock values
+	private static String expressLane; //Lane to be treated as express during checkout
 	
 
 	private static final BufferedReader INPUT_MAN =  
@@ -68,9 +68,22 @@ public class ProjectDriver {
 	
 	/**
 	 * 
+	 * @param shopCent
+	 * @param shopName
+	 * @return
+	 */
+	private static Shopper requestShopper(ShoppingCenter shopCent, String shopName){
+		int shopIndex = shopCent.shopperFindByName(shopName); //Index of requested shopper
+		Shopper requestedShopper = shopCent.getShopperList().get(shopIndex); //Getting Shopper object by int index
+		return requestedShopper;
+	}
+	
+	/**
+	 * 
+	 * @param stock
 	 * @throws IOException
 	 */
-	private static void initialPrompt() throws IOException{
+	private static void initialPrompt(Stock stock) throws IOException{
 		int itemCount = requestIOInt("Please specify stock. \n" +
 									 "How many items do you have?");
 		int restockNum = requestIOInt("Please specify Restocking amount");
@@ -82,71 +95,82 @@ public class ProjectDriver {
 			stock.addEntry(itemName, itemAmount);
 			System.out.println(itemAmount + " items of " + itemName + " have been placed in stock.");
 		}
+		expressLane = requestIOString("Please select the checkout line that should check out customers " + 
+									  " first (regular1/regular2/express)");
+		
 	}
 
 	/**
 	 * 
-	 * @param shoppers
+	 * @param shopCent
 	 * @throws IOException
 	 */
-	private static void enterShoppingCenter(ListRA<ShoppingCenter> shoppers) throws IOException {
+	private static void enterShoppingCenter(ShoppingCenter shopCent) throws IOException {
 		String customerName = requestIOString(">>Enter customer name : ");
 		//Create the shopper
 		Shopper theShopper = new Shopper(customerName);
 		//Add customer to the shopping center collection
+		shopCent.shoppersAdd(theShopper);
 		//Method from shopping center to add customers will go here
 		System.out.println("Customer " + customerName + " is now in the shopping center");
 	}
 
 	/**
 	 * 
-	 * @param shoppers
+	 * @param shopCent
 	 * @throws IOException
 	 */
-	private static void shopperItemAdd(ListRA<ShoppingCenter> shoppers) throws IOException {
+	private static void shopperItemAdd(ShoppingCenter shopCent) throws IOException {
 		String customer = requestIOString(">>Enter customer name : ");
 		String itemDesired = requestIOString(">>What item does " + customer + " want?");
-		//Use search method in shoppingCenter to find customer
 		//Add the item to their cart
-		/*
-		if(Amount in cart is <= to 1){
-				System.out.println("Customer " + customer + " now has " + "1 item in their shopping cart.");
+		Shopper requestedShopper = requestShopper(shopCent, customer);
+		System.out.println(shopCent.shopperGetItem(requestedShopper, itemDesired));
+		
+		if(requestedShopper.getItems() <= 1){
+				System.out.println("Customer " + customer + " now has 1 item in their shopping cart.");
 		}
 		else{
-			System.out.println("Customer " + customer + " now has " + (amount of items in cart) + " items in "+
+			System.out.println("Customer " + customer + " now has " + requestedShopper.getItems() + " items in "+
 							   "their shopping cart.");
-		*/
-		//Increase time for everyone
+		}
+		//Increase time for everyone is accomplished in shopperGetItem
 	}
 
 	/**
 	 * 
+	 * @param shopCent
 	 * @throws IOException
 	 */
-	private static void shopperItemRemove() throws IOException {
+	private static void shopperItemRemove(ShoppingCenter shopCent) throws IOException {
 		String customer = requestIOString(">>Enter customer name : ");
-		//Use search method in shoppingCenter to find customer
 		//Decrease amount of items in cart by 1
-		/*
-		if(Amount in cart is <= to 1){
-				System.out.println("Customer " + customer + " now has " + "1 item in their shopping cart.");
+		Shopper requestedShopper = requestShopper(shopCent, customer);
+		shopCent.shopperRemoveItem(requestedShopper);
+		
+		if(requestedShopper.getItems() <= 1){
+				System.out.println("Customer " + customer + " now has 1 item in their shopping cart.");
 		}
 		else{
-			System.out.println("Customer " + customer + " now has " + (amount of items in cart) + " items in "+
+			System.out.println("Customer " + customer + " now has " + requestedShopper.getItems() + " items in "+
 							   "their shopping cart.");
-		*/
-		//Increase time for everyone
+		}
+		//Increase time for everyone accomplished in shopperRemoveItem
 	}
 
 	/**
 	 * 
+	 * @param shopCent
 	 * @throws IOException
 	 */
-	private static void shopperDoneShopping() throws IOException {
+	private static void shopperDoneShopping(ShoppingCenter shopCent) throws IOException {
 		//Loop through the customers to see who has the most time spent
-		System.out.println("After " + /*customers amount of time spent*/ " minutes in the Shopping Center customer "
-						 + /*customer name*/ " with " + /*amount of items in customers cart*/  " items is now in " + 
-						   /*checkout line name*/  " checkout line.");
+		int shopIndex = shopCent.shopperFindByTime();
+		Shopper requestedShopper = shopCent.getShopperList().get(shopIndex);
+		System.out.println("After " + requestedShopper.getTime() + " minutes in the Shopping Center customer "
+						 + requestedShopper.getName() + " with " + requestedShopper.getItems() + " items is now in " + 
+						   /*checkout line name*/  " checkout lane.");
+		//Add customer to correct shopping lane, will be handled by line manager class
 
 	}
 
@@ -163,11 +187,17 @@ public class ProjectDriver {
 	 * @param shoppers
 	 * @throws IOException
 	 */
-	private static void printShoppingShoppers(ListRA<ShoppingCenter> shoppers) throws IOException {
+	private static void printShoppingShoppers(ShoppingCenter shopCent) throws IOException {
+		ListOrdered<Shopper> shoppers = shopCent.getShopperList();
+		System.out.println("The following " + shoppers.size() + " customers are in the Shopping Center:");
 		//Loop through shopping center collection to see who is still shopping
 		for(int i = 0; i <= shoppers.size() -1; i++){
-			//Going to use the shopper toString method here to get
-			//information about each shopper
+			//Loop through list of shoppers grabbed from the shopping center class
+			String shopperName = shoppers.get(i).getName();
+			int cartVal = shoppers.get(i).getItems();
+			int timeSpent = shoppers.get(i).getTime();
+			System.out.println("Customer " + shopperName + " with " + cartVal + " items present for " + 
+			                   timeSpent + " minutes.");
 		}
 
 	}
@@ -182,10 +212,13 @@ public class ProjectDriver {
 
 	/**
 	 * 
+	 * @param stock
+	 * @throws IOException
 	 */
-	private static void printRestockingInfo() throws IOException {
+	private static void printRestockingInfo(Stock stock) throws IOException {
 		System.out.println("Items at re-stocking level:");
 		//Loop through the items that are <= than the global variable restockingNum
+		System.out.println(stock.getRestocks());
 	}
 
 	/**
@@ -197,9 +230,11 @@ public class ProjectDriver {
 
 	public static void main(String[] args) throws IOException {
 		
-		ListRA<ShoppingCenter> shoppers = new ListRA<ShoppingCenter>();
+		//Still need to use index of express line instead of choice for shopCent
+		ShoppingCenter shopCent = new ShoppingCenter(3, choice, restockNum);
+		Stock stock = shopCent.getStock();
 		
-		initialPrompt();
+		initialPrompt(stock);
 
 
 		System.out.println("Select from the following menu:");
@@ -216,7 +251,7 @@ public class ProjectDriver {
                            
                            
 		do {
-			System.out.println("You know the options.");
+			System.out.println("Make your menu selection now.");
 
 				try
 				{// Request an integer for a command
@@ -237,32 +272,32 @@ public class ProjectDriver {
 					break;
 
 				case 1:
-					enterShoppingCenter(shoppers);
+					enterShoppingCenter(shopCent);
 					break;
 
 				case 2:
-					shopperItemAdd(shoppers);
+					shopperItemAdd(shopCent);
 					break;
 
 				case 3:
-					shopperItemRemove();
+					shopperItemRemove(shopCent);
 					break;
 
 				case 4:
-					shopperDoneShopping();
+					shopperDoneShopping(shopCent);
 					break;
 
 				case 5:
 					shopperCheckOut();
 					break;
 				case 6:
-					printShoppingShoppers(shoppers);
+					printShoppingShoppers(shopCent);
 					break;
 				case 7:
 					printInLineShoppers();
 					break;
 				case 8:
-					printRestockingInfo();
+					printRestockingInfo(stock);
 					break;
 				case 9:
 					reorderItem();
