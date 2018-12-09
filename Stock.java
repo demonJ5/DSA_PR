@@ -59,10 +59,12 @@ public class Stock
 	 */
 	public void addEntry(String name, int amount)
 	{
-		int determinant = itemNames.add(name); // add the new item, fetch its index
-		if (determinant > 0)
+		int determinant = itemNames.add(name); // add the new item, fetch its 
+											  // index
+		if (determinant < 0)
 		{
-			itemCounts.add(determinant - 1, amount); // add the amount to the equivalent index
+			itemCounts.add(-(determinant + 1), amount); // add the amount to 
+														// the equivalent index
 		}
 		else
 		{
@@ -74,7 +76,8 @@ public class Stock
 	 * Given the name of an item, get its encoded location of data in both arrays
 	 *
 	 * @param name Name of the sought after item
-	 * @return encoded location of the key from 1 ... n, with negative values not existing
+	 * @return encoded location of the key from 1 ... n, with negative values 
+	 * 			not existing
 	 */
 	public int findItem(String name)
 	{
@@ -95,6 +98,16 @@ public class Stock
 		itemCounts.add(index, newVal); 
 		// NOTE: could be expedited with a set(...) method
 		// for the listRA
+	}
+
+	/**
+	 * Find the count of the item in the given index
+	 *
+	 * @param index Item to be queried
+	 */
+	public int findCount(int index)
+	{
+		return itemCounts.get(index);
 	}
 
 	/**
