@@ -44,10 +44,21 @@ public class test_center
 		lineman.acceptShopper(kongu);
 		System.out.println(lineman.toString());
 
-		Shopper temp;
-		int temp = center.shopperFindByName("Jaller");
-		temp = center.getShopperList().get(kongDex);
-		
+		Shopper tempSh;
+		int temp;
+
+		temp = center.shopperFindByName("Jaller");
+		tempSh = center.getShopperList().get(temp);
+		lineman.acceptShopper(tempSh);
+		System.out.println(lineman);		
+		temp = center.shopperFindByName("Tahu");
+		tempSh = center.getShopperList().get(temp);
+		lineman.acceptShopper(tempSh);
+		System.out.println(lineman);		
+		temp = center.shopperFindByName("Hydraxon");
+		tempSh = center.getShopperList().get(temp);
+		lineman.acceptShopper(tempSh);
+		System.out.println(lineman);		
 		
 		
 		

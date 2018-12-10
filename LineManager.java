@@ -122,7 +122,7 @@ public class LineManager
 			/*
 			 * Subcase 1: Priority is 2x smallest regular
 			 */
-			if (prioritySize >= 2 * smallestSize)
+			if (prioritySize > 2 * smallestSize)
 			{
 				openLines.get(smallestIndex).enqueue(selected);
 			}
