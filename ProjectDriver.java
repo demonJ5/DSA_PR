@@ -14,7 +14,7 @@ import java.io.*;
 public class ProjectDriver {
 
 	private static int choice = 0; // Choice the user makes in menu selection
-	private static final int restockNum = 0; //Number to use for checking restock values
+	private static int restockNum = 0; //Number to use for checking restock values
 	private static String expressLane; //Lane to be treated as express during checkout
 	
 
@@ -86,8 +86,7 @@ public class ProjectDriver {
 	private static void initialPrompt(Stock stock) throws IOException{
 		int itemCount = requestIOInt("Please specify stock. \n" +
 									 "How many items do you have?");
-		int restockNum = requestIOInt("Please specify Restocking amount");
-		stock = new Stock(restockNum);
+		restockNum = requestIOInt("Please specify Restocking amount");
 		for(int index = 1; index <= itemCount; index++){
 			String itemName = requestIOString(">>Enter Item name : ");
 			int itemAmount = requestIOInt(">>How many " + itemName + "s");
