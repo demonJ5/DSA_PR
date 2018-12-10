@@ -85,15 +85,15 @@ public class Stock
 	}
 
 	/**
-	 * Decriment the count index's value by a specified amount
+	 * Change the count index's value by a specified amount
 	 * Expected to be used in conjunction with a fetched index from findItem()
 	 *
 	 * @param index The target index to modify
-	 * @param amount The amount by which to decriment the count
+	 * @param amount The amount by which to change the count
 	 */
 	public void changeCount(int index, int amount)
 	{
-		int newVal = itemCounts.get(index) - amount;
+		int newVal = itemCounts.get(index) + amount;
 		itemCounts.remove(index);
 		itemCounts.add(index, newVal); 
 		// NOTE: could be expedited with a set(...) method

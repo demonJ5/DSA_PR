@@ -173,7 +173,7 @@ public class ShoppingCenter
 			// Check if item is in stock
 			if(currCount > 0)
 			{
-				STOCK_MAN.changeCount(itemRealIndex, 1);
+				STOCK_MAN.changeCount(itemRealIndex, -1);
 				selectedShopper.addItem();
 				timeTic();
 				retVal = 0; // Operation successful
