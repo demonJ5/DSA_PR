@@ -6,8 +6,15 @@ public class Shopper implements Comparable<Shopper>
 
 	public Shopper(String name)
 	{
-		items = 0;
-		timeSpent = 0;
+		this.items = 0;
+		this.timeSpent = 0;
+		this.name = name;
+	}
+
+	public Shopper(String name, int items)
+	{
+		this.items = items;
+		this.timeSpent = 0;
 		this.name = name;
 	}
 
