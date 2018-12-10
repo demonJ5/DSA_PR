@@ -87,9 +87,13 @@ public class ProjectDriver {
 		
 		//Create the shopper
 		Shopper theShopper = new Shopper(customerName);
-		//Add customer to the shopping center collection
-		shopCent.shoppersAdd(theShopper);
-		//Method from shopping center to add customers will go here
+		int check = shopCent.shoppersAdd(theShopper);
+		while(check == 0){
+			System.out.println(customerName +" is already in the Shopping Center.");
+			customerName = requestIOString(">>Enter customer name : ");
+			theShopper = new Shopper(customerName);
+			check = shopCent.shoppersAdd(theShopper);
+		}
 		System.out.println("Customer " + customerName + " is now in the shopping center");
 	}
 
