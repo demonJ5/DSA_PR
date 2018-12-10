@@ -15,7 +15,7 @@ public class ProjectDriver {
 
 	private static int choice = 0; // Choice the user makes in menu selection
 	private static int restockNum = 0; //Number to use for checking restock values
-	private static String expressLane; //Lane to be treated as express during checkout
+	private static int firstLineIndex = 0; //Index of the first line to be checked out
 	
 
 	private static final BufferedReader INPUT_MAN =  
@@ -94,8 +94,27 @@ public class ProjectDriver {
 			stock.addEntry(itemName, itemAmount);
 			System.out.println(itemAmount + " items of " + itemName + " have been placed in stock.");
 		}
-		expressLane = requestIOString("Please select the checkout line that should check out customers " + 
+		String expressLane = requestIOString("Please select the checkout line that should check out customers " + 
 									  " first (regular1/regular2/express)");
+		switch(expressLane){
+		
+		case "regular1":
+			firstLineIndex = 0;
+			break;
+		
+		case "regular2":
+			firstLineIndex = 1;
+			break;
+			
+		case "express":
+			firstLineIndex = 2;
+			break;
+			
+		default:
+			System.out.println("That is not a valid line entry.");
+		
+		}
+		
 		
 	}
 
@@ -166,6 +185,8 @@ public class ProjectDriver {
 		//Loop through the customers to see who has the most time spent
 		int shopIndex = shopCent.shopperFindByTime();
 		Shopper requestedShopper = shopCent.getShopperList().get(shopIndex);
+		LineManager lineManager = shopCent.getLines();
+		lineManager.acceptShopper(requestedShopper);
 		System.out.println("After " + requestedShopper.getTime() + " minutes in the Shopping Center customer "
 						 + requestedShopper.getName() + " with " + requestedShopper.getItems() + " items is now in " + 
 						   /*checkout line name*/  " checkout lane.");
@@ -177,8 +198,21 @@ public class ProjectDriver {
 	 * 
 	 * @throws IOException
 	 */
-	private static void shopperCheckOut() throws IOException {
-
+	private static void shopperCheckOut(ShoppingCenter shopCent) throws IOException {
+		LineManager lineManager = shopCent.getLines();
+		int queuePosition = lineManager.checkAllLines();
+		Shopper shopper = lineManager.removeShopper(queuePosition);
+		
+		String customerOp = requestIOString("Should customer " + shopper.getName() + " check out or keep shopping? "
+				                          + "Checkout? (Y/N):");
+		if(customerOp == "Y"){
+			System.out.println("Customer " + shopper.getName() +  "is now leaving the Shopping Center.");
+		}
+		else{
+			System.out.println("Customer " + shopper.getName() + " with " + shopper.getItems() + " items returned to shopping.");
+			shopper.clearTime();
+			shopCent.shoppersAdd(shopper);
+		}
 	}
 
 	/**
@@ -206,7 +240,7 @@ public class ProjectDriver {
 	 * @throws IOException
 	 */
 	private static void printInLineShoppers() throws IOException {
-
+		
 	}
 
 	/**
@@ -230,7 +264,7 @@ public class ProjectDriver {
 	public static void main(String[] args) throws IOException {
 		
 		//Still need to use index of express line instead of choice for shopCent
-		ShoppingCenter shopCent = new ShoppingCenter(3, choice, restockNum);
+		ShoppingCenter shopCent = new ShoppingCenter(3, firstLineIndex, restockNum);
 		Stock stock = shopCent.getStock();
 		
 		initialPrompt(stock);
@@ -287,7 +321,7 @@ public class ProjectDriver {
 					break;
 
 				case 5:
-					shopperCheckOut();
+					shopperCheckOut(shopCent);
 					break;
 				case 6:
 					printShoppingShoppers(shopCent);
