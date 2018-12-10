@@ -84,6 +84,7 @@ public class ProjectDriver {
 	 */
 	private static void enterShoppingCenter(ShoppingCenter shopCent) throws IOException {
 		String customerName = requestIOString(">>Enter customer name : ");
+		
 		//Create the shopper
 		Shopper theShopper = new Shopper(customerName);
 		//Add customer to the shopping center collection

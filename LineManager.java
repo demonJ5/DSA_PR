@@ -1,3 +1,12 @@
+/*
+ * Purpose: ADT for managing Shopper Queues
+ * Status: Complete and tested 
+ * Last update: 12/10/18
+ * Submitted:  12/10/18
+ * Comment: 
+ * @author: Joseph Demoneris
+ * @version: 2018.10.12
+ */
 /**
  * LineManager.java
  * Purpose: Provide an ADT for managing cyclical rotation of checkout lines
@@ -122,7 +131,7 @@ public class LineManager
 			/*
 			 * Subcase 1: Priority is 2x smallest regular
 			 */
-			if (prioritySize >= 2 * smallestSize)
+			if (prioritySize > 2 * smallestSize)
 			{
 				openLines.get(smallestIndex).enqueue(selected);
 			}

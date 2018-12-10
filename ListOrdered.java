@@ -1,9 +1,18 @@
+/*
+ * Purpose: Ordered List ADT via Comparables
+ * Status: Complete and tested 
+ * Last update: 12/10/18
+ * Submitted:  12/10/18
+ * Comment: 
+ * @author: Joseph Demoneris
+ * @version: 2018.10.12
+ */
 /**
  * ListOrdered.java
  * Purpose: Provide an ordered list framework for objects that implement Comparable among themselves
  *
  * @author Joseph Demoneris
- * @version 12/3/18
+ * @version 12/10/18
  */
 public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterface<T>
 {// This class only supports generics that implement the comparable interface that are comparable to themselves.
@@ -50,7 +59,8 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 	/**
 	 * Add an object into the array within its proper position
 	 *
-	 * @return The encoded index of insertion from 1 ... n
+	 * @return The encoded index of insertion from 1 ... n on success
+	 * 			0 if attempted to add a duplicate
 	 */
     public int add(T item)
     throws  ListIndexOutOfBoundsException
@@ -85,13 +95,14 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 		}
 		else
 		{
-			System.out.println("Duplicate value!");
+			determinant = 0; // Error code specifies a duplicate
 		}
 		return determinant;
     }
 
 	/**
-	 * Find the location of the key or where it is to be inserted
+	 * Find the location of the key or where it is to be inserted via
+	 * iterative binary search
 	 *
 	 * @return Encoded index of the key 1 ... n (if positive) or index
 	 * 			of recommended insertion (if negative)
@@ -158,7 +169,7 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
     }
 
 	/**
-	 * Clear the specified index
+	 * Clear the specified index and shift other items accordingly
 	 */
     public void remove(int index)
     throws ListIndexOutOfBoundsException
@@ -202,9 +213,9 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 	}
 
 	/**
-	 * Retrieve a string representation of the list
-	 * in format 1...n
-	 * 		 not 0...n-1
+	 * Retrieve a string representation of the list.
+	 * Formatted as 1...n
+	 *	 		 not 0...n-1
 	 *
 	 * @return An ordered, numbered readout of each item vertically
 	 */

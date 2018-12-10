@@ -145,10 +145,12 @@ public class ShoppingCenter
 	 *
 	 * @param Shopper The new shopper; ideally generated in
 	 * 				the driver
+	 * @return int encoded index of insertion from 1...n within SHOPPER_LIST
+	 * 			if successful, 0 if attempted to insert a duplicate
 	 */
-	public void shoppersAdd(Shopper newShopper)
+	public int shoppersAdd(Shopper newShopper)
 	{
-		SHOPPER_LIST.add(newShopper);
+		return SHOPPER_LIST.add(newShopper);
 	}
 
 	/**

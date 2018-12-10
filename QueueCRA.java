@@ -1,11 +1,18 @@
 /*
- * Purpose: Lab 6 Circular Arraybased Queue
+ * Purpose: Circular Arraybased Queue Data Structure
  * Status: Complete and thoroughly tested
- * Last update: 10/09/18
- * Submitted: 10/10/18
+ * Last update: 12/5/18
+ * Submitted: 12/10/18
  * Comment: Nil
  * @author: Joseph Demoneris
- * @version: 2018.09.10
+ * @version: 2018.5.12
+ */
+/**
+ * QueueCRA.java
+ * Purpose: Provide a Queue data structure with a circular, resizable array-
+ * 			based implementation.
+ * @author Joseph Demoneris
+ * @version 12/5/18
  */
 public class QueueCRA<T> implements QueueInterface<T>
 {
@@ -14,6 +21,9 @@ public class QueueCRA<T> implements QueueInterface<T>
 	protected int front;		// Front index
 	protected int back;		// Back index
 
+	/**
+	 * Initialize the queue with an internal size of 3.
+	 */
 	public QueueCRA()
 	{
 		items = (T[]) new Object[3];
@@ -22,6 +32,11 @@ public class QueueCRA<T> implements QueueInterface<T>
 		back = 0;
 	}
 	
+	/**
+	 * Return whether or not the queue is empty.
+	 *
+	 * @return boolean true if empty
+	 */
 	public boolean isEmpty()
 	{
 		boolean val = true;
@@ -29,11 +44,21 @@ public class QueueCRA<T> implements QueueInterface<T>
 		return val;
 	}
 
+	/**
+	 * Return the size of the queue.
+	 *
+	 * @return int amount of items stored in the queue
+	 */
 	public int size()
 	{
 		return numItems;
 	}
 
+	/**
+	 * Add the specified object to the back of the queue.
+	 *
+	 * @param newItem Generic typed item to be enqueued
+	 */
 	public void enqueue(T newItem) throws QueueException
 	{
 		if (numItems == items.length)		// If the array is full, resize
@@ -45,6 +70,11 @@ public class QueueCRA<T> implements QueueInterface<T>
 		numItems++;
 	}
 
+	/**
+	 * Dequeue and retrieve the item at the front of the queue.
+	 *
+	 * @return Generic typed object at the front of the queue
+	 */
 	public T dequeue() throws QueueException
 	{
 		if (items[front] == null) {throw new QueueException("Nothing to dequeue at the front.");}
@@ -55,6 +85,9 @@ public class QueueCRA<T> implements QueueInterface<T>
 		return val;
 	}
 
+	/**
+	 * Throw away the contents of the queue.
+	 */
 	public void dequeueAll()
 	{
 		front = 0;
@@ -63,6 +96,9 @@ public class QueueCRA<T> implements QueueInterface<T>
 		items = (T[]) new Object[3];		// Reinit new array
 	}
 
+	/**
+	 * Retrieve the object at the front of the queue without
+	 */
 	public T peek() throws QueueException
 	{
 		if (items[front] == null) {throw new QueueException("Nothing to peek at the back.");}
