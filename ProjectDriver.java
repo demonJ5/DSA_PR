@@ -112,7 +112,7 @@ public class ProjectDriver {
 			String itemDesired = requestIOString(">>What item does " + customer + " want?");
 			//Add the item to their cart
 			Shopper requestedShopper = requestShopper(shopCent, customer);
-			System.out.println(shopCent.shopperGetItem(requestedShopper, itemDesired));
+			shopCent.shopperGetItem(requestedShopper, itemDesired);
 		
 			if(requestedShopper.getItems() <= 1){
 				System.out.println("Customer " + customer + " now has 1 item in their shopping cart.");
@@ -154,19 +154,41 @@ public class ProjectDriver {
 	 */
 	private static void shopperDoneShopping(ShoppingCenter shopCent) throws IOException {
 		ListOrdered<Shopper> shopCheck = shopCent.getShopperList();
-		if(shopCheck.isEmpty()){
-			System.out.println("Nobody is in the shopping center.");
+		int shopIndex = shopCent.shopperFindByTime();
+		System.out.println(shopIndex);
+		
+		if(shopCheck.size() > 0){
+			Shopper selectedShopper = shopCent.shoppersRemove(shopIndex);
+			if(selectedShopper.getItems() > 0){
+				System.out.println("After " + selectedShopper.getTime() + " minutes in the Shopping Center customer "
+					     + selectedShopper.getName() + " with " + selectedShopper.getItems() + " items is now in the " + 
+					     /*checkout line name*/  " checkout lane.");
+				
+			}
+			else{
+				String custRequest = requestIOString("Should customer " + selectedShopper.getName() + " leave or keep on "
+						+ "shopping? Leave?(Y/N): ");
+				
+				switch(custRequest){
+				
+				case "Y":
+					System.out.println("Customer " + selectedShopper.getName() +  " is now leaving the Shopping Center.");
+					break;
+				
+				case "N":
+					System.out.println("Customer " + selectedShopper.getName() + " with " + selectedShopper.getItems() + 
+					           " items returned to shopping.");
+					selectedShopper.clearTime();
+					shopCent.shoppersAdd(selectedShopper);
+					break;
+					
+				default:
+					System.out.println("Incorrect option defaulting to leaving.");
+				}
+			}
 		}
 		else{
-			//Loop through the customers to see who has the most time spent
-			int shopIndex = shopCent.shopperFindByTime();
-			Shopper requestedShopper = shopCent.getShopperList().get(shopIndex);
-			LineManager lineManager = shopCent.getLines();
-			lineManager.acceptShopper(requestedShopper);
-			System.out.println("After " + requestedShopper.getTime() + " minutes in the Shopping Center customer "
-						     + requestedShopper.getName() + " with " + requestedShopper.getItems() + " items is now in the " + 
-						     /*checkout line name*/  " checkout lane.");
-			//Add customer to correct shopping lane, will be handled by line manager class
+			System.out.println("There is nobody in the shopping center");
 		}
 
 	}
