@@ -208,15 +208,31 @@ public class LineManager
 	public String toString()
 	{
 		String val = "";
-		if (openLines.size() > 0)
+		int numLines = openLines.size();
+		if (numLines > 0)
 		{
-			val += "Priority Queue Readout\n";
-			val += openLines.get(0).toString();
-			int numLines = openLines.size();
+			// Decide whether to display priority
+			if (openLines.get(0).size() > 0)
+			{
+				val += "Priority Queue Readout\n";
+				val += openLines.get(0).toString();
+			}
+			else
+			{
+				val += "Priority Queue is empty\n";
+			}
+			// Decide whether to display the rest`:w
 			for (int i = 1; i < numLines; i++)
 			{
-				val += "Regular Queue Number" + i + "\n";
-				val += openLines.get(i).toString();
+				if (openLines.get(i).size() > 0)
+				{
+					val += "Regular Queue Number " + i + "\n";
+					val += openLines.get(i).toString();
+				}
+				else
+				{
+					val += "Regular Queue Number " + i + " is empty\n";
+				}
 			}
 		}
 		else

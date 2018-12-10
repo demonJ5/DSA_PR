@@ -192,7 +192,7 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 	{
 		if (items.length == numItems)
 		{
-			T[] newArray = (T[]) new Object[(int) Math.ceil(numItems * 1.5)];
+			T[] newArray = (T[]) new Comparable[(int) Math.ceil(numItems * 1.5)];
 			for(int i = 0; i < items.length; i++)
 			{
 				newArray[i] = items[i];
