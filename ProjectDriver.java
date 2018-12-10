@@ -257,7 +257,7 @@ public class ProjectDriver {
 	/**
 	 * 
 	 */
-	private static void reorderItem() throws IOException {
+	private static void reorderItem(ShoppingCenter shopCent) throws IOException {
 		
 	}
 
@@ -333,7 +333,7 @@ public class ProjectDriver {
 					printRestockingInfo(stock);
 					break;
 				case 9:
-					reorderItem();
+					reorderItem(shopCent);
 					break;
 				default:
 					System.out.println("Invalid input.");
