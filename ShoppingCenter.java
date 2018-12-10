@@ -154,6 +154,19 @@ public class ShoppingCenter
 	}
 
 	/**
+	 * Remove a shopper from SHOPPER_LIST
+	 *
+	 * @param index int index to remove the shopper from
+	 * @return Shopper The removed shopper
+	 */
+	public Shopper shoppersRemove(int index)
+	{
+		Shopper retVal = SHOPPER_LIST.get(index);
+		SHOPPER_LIST.remove(index);
+		return retVal;
+	}
+
+	/**
 	 * Given a selected shopper and the name of an item, decrease
 	 * that item's stock by one and increase the shopper's cart by one
 	 *
