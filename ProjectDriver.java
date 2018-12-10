@@ -251,7 +251,14 @@ public class ProjectDriver {
 	private static void printRestockingInfo(Stock stock) throws IOException {
 		System.out.println("Items at re-stocking level:");
 		//Loop through the items that are <= than the global variable restockingNum
-		System.out.println(stock.getRestocks());
+		try
+		{
+			System.out.println(stock.getRestocks());
+		}
+		catch (Exception e)
+		{
+			System.out.println("Critical error caught\n" + e.toString());
+		}
 	}
 
 	/**
@@ -264,7 +271,7 @@ public class ProjectDriver {
 	public static void main(String[] args) throws IOException {
 		
 		//Still need to use index of express line instead of choice for shopCent
-		ShoppingCenter shopCent = new ShoppingCenter(3, firstLineIndex, restockNum);
+		ShoppingCenter shopCent = new ShoppingCenter(3, firstLineIndex, 3);
 		Stock stock = shopCent.getStock();
 		
 		initialPrompt(stock);

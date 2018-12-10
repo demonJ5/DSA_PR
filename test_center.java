@@ -59,9 +59,32 @@ public class test_center
 		tempSh = center.getShopperList().get(temp);
 		lineman.acceptShopper(tempSh);
 		System.out.println(lineman);		
-		
-		
-		
+		temp = center.shopperFindByName("Gregory");
+		tempSh = center.getShopperList().get(temp);
+		lineman.acceptShopper(tempSh);
+		System.out.println(lineman);		
+		temp = center.shopperFindByName("Makuta");
+		tempSh = center.getShopperList().get(temp);
+		lineman.acceptShopper(tempSh);
+		System.out.println(lineman);		
+
+		System.out.println("Dequeue");
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
+		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println(lineman);
 		
 	}
 }

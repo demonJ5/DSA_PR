@@ -1,30 +1,68 @@
+/*
+ * Purpose: List ADT via Resizable Array
+ * Status: Complete and tested 
+ * Last update: 12/10/18
+ * Submitted:  12/10/18
+ * Comment: 
+ * @author: Joseph Demoneris
+ * @version: 2018.10.12
+ */
+/**
+ * ListRA.java
+ * Purpose: Manage a list data structure with a resizable array framwork.
+ * @author Joseph Demoneris
+ * @version 12/10/18
+ */
 public class ListRA<T> implements ListInterface<T>
 {
     protected T[] items; 
     protected int numItems;
 
+	/**
+	 * Construct a new ListRA with a default array size of 3.
+	 */
     public ListRA()
     {
         items = (T[]) new Object[3];
         numItems = 0;
     } 
 
+	/**
+	 * Returns whether or not the list is empty.
+	 *
+	 * @return boolean true if empty
+	 */
     public boolean isEmpty()
     {
         return (numItems == 0);
     }
 
+	/**
+	 * Returns the amount of items in the list.
+	 *
+	 * @return int amount of items stored
+	 */
     public int size()
     {
         return numItems;
     }
 
+	/**
+	 * Clear the current list by re-instantiating the internal reference.
+	 */
     public void removeAll()
     {
         items = (T[]) new Object[3];
         numItems = 0;
     }
 
+	/**
+	 * Add a new item to the list in the specified index, offsetting if
+	 * necessary.
+	 *
+	 * @param index The index to receive the item
+	 * @param item The generic typed item to be inserted
+	 */
     public void add(int index, T item)
     throws  ListIndexOutOfBoundsException
     {
@@ -50,6 +88,12 @@ public class ListRA<T> implements ListInterface<T>
         }
     }
 
+	/**
+	 * Retrieve the stored item from the given index.
+	 *
+	 * @param index The int index to be retrieved
+	 * @return The generic type residing within the specified index
+	 */
     public T get(int index)
     throws ListIndexOutOfBoundsException
     {
@@ -64,6 +108,11 @@ public class ListRA<T> implements ListInterface<T>
         }
     }
 
+	/**
+	 * Delete the supplied index from the list, shifting as necessary
+	 *
+	 * @param index int index to be deleted
+	 */
     public void remove(int index)
     throws ListIndexOutOfBoundsException
     {
@@ -88,6 +137,10 @@ public class ListRA<T> implements ListInterface<T>
         }
     }
 
+	/**
+	 * Internal method responsible for scaling the internal array by 150%
+	 * whenever the array reaches its max capacity.
+	 */
 	private void resize()
 	{
 		if (items.length == numItems)
