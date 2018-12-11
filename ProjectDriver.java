@@ -66,10 +66,14 @@ public class ProjectDriver {
 	}
 	
 	/**
+	 * Repeated code was often found in the driver so this is a helper class to find a 
+	 * person in the shopping center that will definitely be there. Otherwise exceptions 
+	 * are handled accordingly within each method.
 	 * 
-	 * @param shopCent
-	 * @param shopName
-	 * @return
+	 * @param shopCent The shopping center the we are referencing
+	 * @param shopName String name of the shopper we want to find
+	 * @return returns the shopper object found to the method that calls
+	 * 		   this one
 	 */
 	private static Shopper requestShopper(ShoppingCenter shopCent, String shopName){
 		int shopIndex = shopCent.shopperFindByName(shopName); //Index of requested shopper
@@ -78,8 +82,11 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * This method allows for a customer to be added to the Shopping Center created
+	 * in main. Customers will be asked for their name and checks will be employed
+	 * to see if a customer is already in the shopping center.
 	 * 
-	 * @param shopCent
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void enterShoppingCenter(ShoppingCenter shopCent) throws IOException {
@@ -98,46 +105,65 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * This method adds items to a shopper's cart. Manipulating of stock is done in 
+	 * the ShoppingCenter class. 
 	 * 
-	 * @param shopCent
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void shopperItemAdd(ShoppingCenter shopCent) throws IOException {
-		ListOrdered<Shopper> shopCheck = shopCent.getShopperList();
+		ListOrdered<Shopper> shopCheck = shopCent.getShopperList(); //List of shoppers
 		if(shopCheck.isEmpty()){
 			System.out.println("Nobody is in the shopping center.");
 		}
 		else{
 			String customer = requestIOString(">>Enter customer name : ");
-			String itemDesired = requestIOString(">>What item does " + customer + " want?");
-			//Add the item to their cart
-			Shopper requestedShopper = requestShopper(shopCent, customer);
-			shopCent.shopperGetItem(requestedShopper, itemDesired);
-		
-			if(requestedShopper.getItems() <= 1){
-				System.out.println("Customer " + customer + " now has 1 item in their shopping cart.");
+			int shopIndex = shopCent.shopperFindByName(customer); //Index the customer is located at
+			while(shopIndex < 0){ //Loop while invalid shopper names are entered
+				System.out.println("That is not a valid shopper name.");
+				customer = requestIOString(">>Enter customer name : ");
+				shopIndex = shopCent.shopperFindByName(customer);
 			}
-			else{
-				System.out.println("Customer " + customer + " now has " + requestedShopper.getItems() + " items in "+
-							   	   "their shopping cart.");
+			if(shopIndex >= 0){//If shopper name is successfully found we can add items to their cart
+				String itemDesired = requestIOString(">>What item does " + customer + " want?");
+				//Add the item to their cart
+				Shopper requestedShopper = requestShopper(shopCent, customer); //gets the shopper object associated with 
+																		      //customer name
+				shopCent.shopperGetItem(requestedShopper, itemDesired); //gives item to the customer
+		
+				//if statement for gramatical efficiency
+				if(requestedShopper.getItems() <= 1){
+					System.out.println("Customer " + customer + " now has 1 item in their shopping cart.");
+				}
+				else{
+					System.out.println("Customer " + customer + " now has " + requestedShopper.getItems() + " items in "+
+			      				   	   "their shopping cart.");
+				}
 			}
 		//Increase time for everyone is accomplished in shopperGetItem
 		}
 	}
 
 	/**
+	 * This method removes an item from a shopper's cart using the method defined in the
+	 * ShoppingCenter class. 
 	 * 
-	 * @param shopCent
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void shopperItemRemove(ShoppingCenter shopCent) throws IOException {
-		ListOrdered<Shopper> shopCheck = shopCent.getShopperList();
+		ListOrdered<Shopper> shopCheck = shopCent.getShopperList(); //List of shoppers
 		if(shopCheck.isEmpty()){
 			System.out.println("Nobody is in the shopping center.");
 		}
 		else{
 			String customer = requestIOString(">>Enter customer name : ");
-			//Decrease amount of items in cart by 1
+			int shopIndex = shopCent.shopperFindByName(customer); //Index of the customer we want
+			while(shopIndex < 0){
+				System.out.println("That is not a valid shopper name.");
+				customer = requestIOString(">>Enter customer name : ");
+				shopIndex = shopCent.shopperFindByName(customer);
+			}
 			Shopper requestedShopper = requestShopper(shopCent, customer);
 			shopCent.shopperRemoveItem(requestedShopper);
 		
@@ -148,18 +174,22 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * This method removes a shopper from the shoppingCenter and places them in a checkout lane
+	 * based on the parameters referenced in shopperFindByTime
 	 * 
-	 * @param shopCent
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void shopperDoneShopping(ShoppingCenter shopCent) throws IOException {
 		ListOrdered<Shopper> shopCheck = shopCent.getShopperList();
+		LineManager lineManager = shopCent.getLines();
 		int shopIndex = shopCent.shopperFindByTime();
 		System.out.println(shopIndex);
 		
 		if(shopCheck.size() > 0){
 			Shopper selectedShopper = shopCent.shoppersRemove(shopIndex);
 			if(selectedShopper.getItems() > 0){
+				lineManager.acceptShopper(selectedShopper);
 				System.out.println("After " + selectedShopper.getTime() + " minutes in the Shopping Center customer "
 					     + selectedShopper.getName() + " with " + selectedShopper.getItems() + " items is now in the " + 
 					     /*checkout line name*/  " checkout lane.");
@@ -194,7 +224,10 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * Checks a customer out and asks them if they wish to keep shopping and return to the
+	 * shopping center with 0 items and a reset time or if they wish to leave the store. 
 	 * 
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void shopperCheckOut(ShoppingCenter shopCent) throws IOException {
@@ -221,8 +254,9 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * Prints a list of the customers that are currently shopping
 	 * 
-	 * @param shoppers
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void printShoppingShoppers(ShoppingCenter shopCent) throws IOException {
@@ -246,7 +280,9 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * Prints information about the people who are currently in line.
 	 * 
+	 * @param shopCent The shopping center the we are referencing
 	 * @throws IOException
 	 */
 	private static void printInLineShoppers(ShoppingCenter shopCent) throws IOException {
@@ -255,8 +291,10 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * Utilizes the toString method found in the stock class to print out information
+	 * about items at or below restocking level.
 	 * 
-	 * @param stock
+	 * @param stock The stock that we are going to be checking for restocks. 
 	 * @throws IOException
 	 */
 	private static void printRestockingInfo(Stock stock) throws IOException {
@@ -266,7 +304,11 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * This method adds to the current value of an item defined in the Stock 
 	 * 
+	 * @param shopCent shopping center we are referencing
+	 * @param stock stock used to locate items and add to their current stock level
+	 * @throws IOException
 	 */
 	private static void reorderItem(ShoppingCenter shopCent, Stock stock) throws IOException {
 		String itemName = requestIOString("Enter item name to be re-ordered : ");
@@ -281,7 +323,7 @@ public class ProjectDriver {
 		}
 		
 	}
-
+	
 	public static void main(String[] args) throws IOException {
 		
 		int restockNum = 0; //Number to use for checking restock values
@@ -293,6 +335,9 @@ public class ProjectDriver {
 		restockNum = requestIOInt("Please specify Restocking amount");
 		String expressLane = requestIOString("Please select the checkout line that should check out customers " + 
                 " first (regular1/regular2/express)");
+		//Express lane is defined first so we can create the shopping center used
+		//for this program so we can also define our stock and then add to it. This
+		//is reflected in our modified input
 		switch(expressLane){
 
 		case "regular1":
@@ -313,6 +358,8 @@ public class ProjectDriver {
 		}
 		ShoppingCenter shopCent = new ShoppingCenter(3, firstLineIndex, restockNum);
 		Stock stock = shopCent.getStock();
+		//looping until amount of items in stock is reached to add items and their
+		//stock levels to stock
 		for(int index = 1; index <= itemCount; index++){
 			String itemName = requestIOString(">>Enter Item name : ");
 			int itemAmount = requestIOInt(">>How many " + itemName + "s");
