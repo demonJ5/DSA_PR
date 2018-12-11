@@ -3,7 +3,11 @@
  * Status: Complete and tested 
  * Last update: 12/10/18
  * Submitted:  12/10/18
- * Comment: 
+ * Comment: Because of the way Shoppers are handled (by a sorted list) the tie-
+ * 			breaking in our test data may function differently from yours, as
+ * 			our algorithm for finding persons with the highest time spent
+ * 			shopping is not based on order of insertion, but Alphabetical order
+ * 			of the Shopper's name field. 
  * @author: Joseph Demoneris
  * @version: 2018.10.12
  */
@@ -122,7 +126,10 @@ public class ShoppingCenter
 
 	/**
 	 * Find the first shopper with the highest time spent in SHOPPER_LIST
-	 * and return their index
+	 * and return their index.
+	 *
+	 * See the comment at the top of this file for explanation on how this
+	 * method may yield different results to the test suite provided.
 	 *
 	 * @return int index of the shopper with the highest time spent shopping
 	 * 			or -1 if there are no shoppers currently
