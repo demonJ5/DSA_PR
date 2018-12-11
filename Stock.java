@@ -117,6 +117,7 @@ public class Stock
 	 * Find the count of the item in the given index.
 	 *
 	 * @param index Item to be queried
+	 * @return int count of the number of items in stock for given index
 	 */
 	public int findCount(int index)
 	{

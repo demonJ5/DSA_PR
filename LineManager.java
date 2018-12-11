@@ -119,8 +119,8 @@ public class LineManager
 	 * are elligible for the priority queue, but may still
 	 * pick a non-priority queue if it is adequately shorter
 	 *
-	 * @param Shopper The shopper who is r and the logical
-	 * listeady to enter a queue
+	 * @param selected Shopper who is ready to enter the queue and the logical
+	 * list
 	 */
 	public void acceptShopper(Shopper selected)
 	{
@@ -166,16 +166,14 @@ public class LineManager
 	}
 
 	/**
-	 * Note: THIS CLASS DIFFERS IN <RETURN> FROM THE DESIGN
-	 *
-	 * Dequeue a shopper from the queue of the given index
+	 * Dequeue a shopper from the queue of the given index.
 	 *
 	 * This is intended to be used after calling checkAllLines()
 	 * to see 1) if a customer is ready to be checked out and
 	 * 2) to see WHICH customer needs to be checked out based
 	 * on what queue they are in
 	 *
-	 * @param int The index of the queue which is to dequeue
+	 * @param index int index of the queue which is to dequeue
 	 * 				a shopper
 	 * @return Shopper the shopper at the end of the line
 	 */

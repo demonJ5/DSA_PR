@@ -73,7 +73,7 @@ public class ShoppingCenter
 	/**
 	 * Retrieve the list of Shoppers
 	 *
-	 * @return ListOrdered<Shopper> ADT
+	 * @return ListOrdered type Shopper ADT
 	 */
 	public ListOrdered<Shopper> getShopperList()
 	{
@@ -153,8 +153,7 @@ public class ShoppingCenter
 	/**
 	 * Add a new Shopper to SHOPPER_LIST
 	 *
-	 * @param Shopper The new shopper; ideally generated in
-	 * 				the driver
+	 * @param newShopper Shopper new shopper; ideally generated in the driver
 	 * @return int encoded index of insertion from 1...n within SHOPPER_LIST
 	 * 			if successful, 0 if attempted to insert a duplicate
 	 */
@@ -225,7 +224,7 @@ public class ShoppingCenter
 	}
 
 	/**
-	 * Given a selected shopper, attempt to remove an item from theiir cart
+	 * Given a selected shopper, attempt to remove an item from their cart
 	 * If this results in a failure, time is NOT ticced as the action is
 	 * not successful
 	 *
