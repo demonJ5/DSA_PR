@@ -105,6 +105,7 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
 	 * Find the location of the key or where it is to be inserted via
 	 * iterative binary search
 	 *
+	 * @param key Generic item to search for in the list
 	 * @return Encoded index of the key 1 ... n (if positive) or index
 	 * 			of recommended insertion (if negative)
 	 */

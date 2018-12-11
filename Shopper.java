@@ -110,7 +110,7 @@ public class Shopper implements Comparable<Shopper>
 
 	/**
 	 * Compare this Shopper to other instances of Shopper.
-	 * Note: Necessitated by Comparable<Shopper>
+	 * Note: Necessitated by Comparable type Shopper
 	 *
 	 * @param key Shopper being compared to
 	 * @return int less than 0 when this less than key
