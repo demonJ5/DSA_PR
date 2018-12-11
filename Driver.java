@@ -1,9 +1,6 @@
-
-import java.util.Scanner;
-
 /*
  * Purpose: Data Structure and Algorithms Project
- * Status: Incomplete
+ * Status: Complete and well throughly tested
  * Last update: 12/10/18
  * Submitted: 12/11/18
  * Comment: test suite and sample run attached
@@ -12,19 +9,19 @@ import java.util.Scanner;
  */
 
 import java.io.*;
-public class ProjectDriver {
+public class Driver {
 
 	private static int choice = 0; // Choice the user makes in menu selection
-	
-
 	private static final BufferedReader INPUT_MAN =  
 	new BufferedReader (new InputStreamReader(System.in));
 
 	
 	/**
+	 * Takes in a string specified by the programmer and displays it, then asks for user input data.
+	 * User input data is then formatted and trimmed, printed out and the value is returned.
 	 * 
-	 * @param display
-	 * @return
+	 * @param display What text you want to display as the prompt for the user
+	 * @return returns the String input by the user
 	 * @throws IOException
 	 */
 	public static String requestIOString(String display) throws IOException
@@ -36,9 +33,12 @@ public class ProjectDriver {
 	}
 
 	/**
+	 * Takes in a string specified by the programmer and displays it, then asks for user input data.
+	 * User input data is then casted to an integer, parsed and trimmed, printed out, and then the
+	 *  value given is returned.
 	 * 
-	 * @param display
-	 * @return
+	 * @param display What text you want to display as the prompt for the user
+	 * @return returns the String input by the user
 	 * @throws IOException
 	 */
 	public static int requestIOInt(String display) throws IOException
@@ -46,21 +46,6 @@ public class ProjectDriver {
 	 // as an integer.
 		System.out.print(display + " > ");
 		int input = (int) Integer.parseInt(INPUT_MAN.readLine().trim());
-		System.out.println(input);
-		return input;
-	}
-	
-	/**
-	 * 
-	 * @param display
-	 * @return
-	 * @throws IOException
-	 */
-	public static double requestIODubs(String display) throws IOException
-	{// Request an double for input. Trim the result and parse it
-	 // as an double.
-		System.out.print(display + " > ");
-		double input = (double) Double.parseDouble(INPUT_MAN.readLine().trim());
 		System.out.println(input);
 		return input;
 	}
