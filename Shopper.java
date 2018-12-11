@@ -113,7 +113,7 @@ public class Shopper implements Comparable<Shopper>
 	 * Note: Necessitated by Comparable<Shopper>
 	 *
 	 * @param key Shopper being compared to
-	 * @returns int less than 0 when this less than key
+	 * @return int less than 0 when this less than key
 	 * 				equal to 0 when this equals key
 	 * 				greater than zero when this is greater than key
 	 */
@@ -122,6 +122,11 @@ public class Shopper implements Comparable<Shopper>
 		return name.compareTo(key.getName());
 	}
 
+	/**
+	 * Retrieve the String representation of the shopper.
+	 *
+	 * @return String consisting of name, time  spent, and count of items.
+	 */
 	public String toString()
 	{
 		return "" + name + "	Time Spent: " + timeSpent + "	Items: " + items;

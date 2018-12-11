@@ -1,3 +1,15 @@
+/*
+ * Purpose: Stock ADT
+ * Status: Complete and tested 
+ * Last update: 12/10/18
+ * Submitted:  12/10/18
+ * Comment: Though this ADT could be rewritten to use a list of StockItem
+ * 			instances instead of two synchronized arrays, I felt that the
+ * 			simplicity lost in the code was worth the simplicity gained in
+ * 			the general class diagram altogether.
+ * @author: Joseph Demoneris
+ * @version: 2018.10.12
+ */
 /**
  * Stock.java
  * Purpose: Maintains two arrays for grocery items and their respective amounts 
@@ -12,8 +24,10 @@ public class Stock
 	 * These are fundamentally related with one another, an ordered 
 	 * array of Strings for item names and a corresponding array  
 	 * of the number of the respective items.
-	 * Because both arrays are modified concurrently, itemNames[x] will always correspond
-	 * to the name of the item whose number of objects is also itemCounts[x].
+	 *
+	 * Because both arrays are modified concurrently, itemNames[x] will always 
+	 * correspond to the name of the item whose number of objects is also 
+	 * itemCounts[x].
 	 */
 	private int restockValue;
 	
@@ -22,7 +36,7 @@ public class Stock
 	 */
 
 	/**
-	 * Constructor
+	 * Constructor with a default restock value.
 	 * The default constructor does not specify a restock value
 	 * The only items need to be restocked are those with none left
 	 */
@@ -34,8 +48,7 @@ public class Stock
 	}
 
 	/**
-	 * Constructor
-	 * As above, but specify a restock value
+	 * Constructor with an explicit restock value.
 	 *
 	 * @param restockValue The minimum number of an item to throw an alert when querried
 	 */
@@ -52,7 +65,7 @@ public class Stock
 
 	/**
 	 * Use binarysearch to add a new item name and if successful add a count
-	 * to the corresponding entry in the itemCounts array
+	 * to the corresponding entry in the itemCounts array.
 	 *
 	 * @param name The name of the new item to add
 	 * @param amount The amount in stock of this new item
@@ -73,7 +86,7 @@ public class Stock
 	}
 	
 	/**
-	 * Given the name of an item, get its encoded location of data in both arrays
+	 * Given the name of an item, get its encoded location of data in both arrays.
 	 *
 	 * @param name Name of the sought after item
 	 * @return encoded location of the key from 1 ... n, with negative values 
@@ -85,7 +98,7 @@ public class Stock
 	}
 
 	/**
-	 * Change the count index's value by a specified amount
+	 * Change the count index's value by a specified amount.
 	 * Expected to be used in conjunction with a fetched index from findItem()
 	 *
 	 * @param index The target index to modify
@@ -101,7 +114,7 @@ public class Stock
 	}
 
 	/**
-	 * Find the count of the item in the given index
+	 * Find the count of the item in the given index.
 	 *
 	 * @param index Item to be queried
 	 */
@@ -111,7 +124,7 @@ public class Stock
 	}
 
 	/**
-	 * Fetch the list of all items that need a refill 
+	 * Fetch the list of all items that need a refill .
 	 *
 	 * @return Return a string of all items and their counts that need a refill
 	 * 			formatted as NAME : COUNT

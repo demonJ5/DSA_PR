@@ -15,7 +15,8 @@
  * @version 12/10/18
  */
 public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterface<T>
-{// This class only supports generics that implement the comparable interface that are comparable to themselves.
+{// This class only supports generics that implement the comparable interface 
+ // that are comparable to themselves.
 
     protected T[] items; 
     protected int numItems;
@@ -194,6 +195,25 @@ public class ListOrdered<T extends Comparable<T>> implements ListOrderedInterfac
                 "ListIndexOutOfBoundsException on remove");
         }
     }
+
+	/**
+	 * Remove an item by item instance.
+	 *
+	 * @param key Generic reference which needs to be removed from the list.
+	 */
+	public void remove(T key)
+	{
+		int determinant = binSearch(key);
+		if (determinant > 0)
+		{
+			remove(determinant - 1);
+		}
+		else
+		{
+			throw new ListException("Tried to remove an object that did not " +
+									"exist within the list.");
+		}
+	}
 
 	/**
 	 * Internal method to dynamically resize the array

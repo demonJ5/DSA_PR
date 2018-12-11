@@ -1,3 +1,16 @@
+/*
+ * Purpose: Shopping Center Test Program
+ * Status: Complete
+ * Last update: 12/10/18
+ * Submitted:  12/10/18
+ * Comment: 
+ * @author: Joseph Demoneris
+ * @version: 2018.10.12
+ */
+/**
+ * test_center.java
+ * This application is used to test the functionality of ShoppingCenter.java.
+ */
 public class test_center
 {
 	public static void main(String[] args)
@@ -81,10 +94,33 @@ public class test_center
 		System.out.println(lineman);
 		tempSh = lineman.removeShopper(lineman.checkAllLines());
 		System.out.println(lineman);
-		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		
+		System.out.println("Removal by find");
+		System.out.println(center.getShopperList());
+		center.shoppersAdd(new Shopper("Randal", 2));	
+		System.out.println(center.getShopperList());
+		temp = center.shopperFindByName("Randal");
+		tempSh = center.shoppersRemove(temp);
+		System.out.println(tempSh);
+		System.out.println(center.getShopperList());
+
+		System.out.println("Adding duplicates");
+		center.shoppersAdd(new Shopper("Takua", 5));
+		System.out.println(center.getShopperList());
+		temp = center.shopperFindByName("Takua");
+		tempSh = center.getShopperList().get(temp);
+		System.out.println("Accept shopper");
+		lineman.acceptShopper(tempSh);
+		System.out.println(center.getShopperList());
 		System.out.println(lineman);
-		tempSh = lineman.removeShopper(lineman.checkAllLines());
+		System.out.println("Try to add dupe");
+		System.out.println(center.shoppersAdd(new Shopper("Takua",5)));
+		System.out.println(center.getShopperList());
+		System.out.println("Dequeue and readd");
+		lineman.checkAllLines();
 		System.out.println(lineman);
+		center.shoppersAdd(new Shopper("Takua", 5));
+		System.out.println(center.getShopperList());
 		
 	}
 }

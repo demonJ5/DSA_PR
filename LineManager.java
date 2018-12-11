@@ -17,7 +17,11 @@
 public class LineManager
 {
 	private ListRA<QueueCRA<Shopper>> openLines; // List of Queues of Shoppers
-	// index 0 = ALWAYS PRIORITY
+												// index 0 = ALWAYS PRIORITY
+	// Logical list of all shoppers on line.
+	// This is used to make sure that even shoppers in line are registered
+	// when checking for duplicates with shoppersAdd()
+	private ListOrdered<Shopper> logicalLine;
 	private int nextOut; // The next line that will check out customers
 	
 	/*
@@ -26,7 +30,7 @@ public class LineManager
 
 	/**
 	 * Initalize the line manager with a given amount of lines
-	 * and specify the line to first accept customers
+	 * and specify the line to first accept customers.
 	 *
 	 * @param lines Number of QueueCRA's to instantiate, including the express line
 	 * @param nextOut Index of the first line to check out customers
@@ -34,6 +38,7 @@ public class LineManager
 	public LineManager(int lines, int nextOut)
 	{
 		openLines = new ListRA<>();
+		logicalLine = new ListOrdered<>();
 		for (int i = 0; i < lines; i++)
 		{
 			openLines.add(i, new QueueCRA<>());
@@ -43,13 +48,14 @@ public class LineManager
 	
 	/**
 	 * Initalize the line manager with a given amount of lines
-	 * NextOut defaults to 0, the priority line
+	 * NextOut defaults to 0, the priority line.
 	 *
 	 * @param lines Number of QueueCRA's to instantiate, including the express line
 	 */
 	public LineManager(int lines)
 	{
 		openLines = new ListRA<>();
+		logicalLine = new ListOrdered<>();
 		for (int i = 0; i < lines; i++)
 		{
 			openLines.add(i, new QueueCRA<>());
@@ -68,7 +74,7 @@ public class LineManager
 
 	/**
 	 * Retrieve the openLines index of the non-express queue with 
-	 * the shortest number of currently waiting customers
+	 * the shortest number of currently waiting customers.
 	 * @return int index of shortest queue, or, 
 	 * 			if no regular queues exist, -1
 	 */
@@ -106,16 +112,19 @@ public class LineManager
 	}
 
 	/**
-	 * Given a shopper, put them into the appropriate queue
+	 * Given a shopper, put them into the appropriate queue and the logical
+	 * list.
 	 *
 	 * If the shopper has less than or equal to 4 items, they 
 	 * are elligible for the priority queue, but may still
 	 * pick a non-priority queue if it is adequately shorter
 	 *
-	 * @param Shopper The shopper who is ready to enter a queue
+	 * @param Shopper The shopper who is r and the logical
+	 * listeady to enter a queue
 	 */
 	public void acceptShopper(Shopper selected)
 	{
+		logicalLine.add(selected); // Add the new shopper to the logical list 
 		int shopperItems = selected.getItems();
 		/*
 		 * Case 1: Shopper is elligible for priority
@@ -172,7 +181,24 @@ public class LineManager
 	 */
 	public Shopper removeShopper(int index)
 	{
-		return openLines.get(index).dequeue(); 
+		Shopper removedShopper = openLines.get(index).dequeue();
+		logicalLine.remove(removedShopper);
+		return removedShopper;
+	}
+
+	/**
+	 * Check the logical line to see if the given shopper is waiting in one of
+	 * the queues.
+	 *
+	 * @param selected Shopper to check for in the logical line
+	 * @return boolean true if the shopper is present
+	 */
+	public boolean checkLogicalShopper(Shopper selected)
+	{
+		boolean retVal = false;
+		int determinant = logicalLine.binSearch(selected);
+		if (determinant > 0) {retVal = true;} // Shopper given is found in lines.
+		return retVal;
 	}
 	
 	/**

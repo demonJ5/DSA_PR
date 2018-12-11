@@ -1,10 +1,19 @@
+/*
+ * Purpose: Shopping Center ADT
+ * Status: Complete and tested 
+ * Last update: 12/10/18
+ * Submitted:  12/10/18
+ * Comment: 
+ * @author: Joseph Demoneris
+ * @version: 2018.10.12
+ */
 /**
  * ShoppingCenter.java
  * Purpose: Provide an ADT that manages the storage of customers, stock, and 
  * 			checkout queues in one package
  *
  * @author Joseph Demoneris
- * @version 12/7/18
+ * @version 12/10/18
  */
 public class ShoppingCenter
 {
@@ -14,6 +23,7 @@ public class ShoppingCenter
 	private final LineManager LINE_MAN;
 	// Stores item stock information
 	private final Stock STOCK_MAN;
+
 
 	/**
 	 * Constructor:
@@ -150,7 +160,16 @@ public class ShoppingCenter
 	 */
 	public int shoppersAdd(Shopper newShopper)
 	{
-		return SHOPPER_LIST.add(newShopper);
+		int retVal = 0;
+		// Check if the shopper is currently shopping
+		int foundShopping = SHOPPER_LIST.binSearch(newShopper);
+		// Check if the shopper is in line
+		boolean foundWaiting = LINE_MAN.checkLogicalShopper(newShopper);
+		if (foundShopping < 0 && !foundWaiting)
+		{
+			retVal = SHOPPER_LIST.add(newShopper);
+		}
+		return retVal; 
 	}
 
 	/**
