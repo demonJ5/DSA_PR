@@ -51,7 +51,7 @@ public class ShoppingCenter
 	 */
 
 	/**
-	 * Retrieve the Stock ADT
+	 * Retrieve the Stock Data Type
 	 *
 	 * @return Stock ADT
 	 */
@@ -61,7 +61,7 @@ public class ShoppingCenter
 	}
 
 	/**
-	 * Retrieve the LineManager ADT
+	 * Retrieve the LineManager Data Type
 	 *
 	 * @return LineManager ADT
 	 */
